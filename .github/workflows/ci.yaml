@@ -7,7 +7,7 @@ on:
 
 env:
     python-version: 3.11.3
-    
+
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
@@ -36,9 +36,10 @@ jobs:
         restore-keys: |
             pre-commit-v7-
 
+    - uses: eifinger/setup-rye@v1
+
     - name: Install rye and Python dependencies
       run: |
-        curl -sSf https://rye-up.com/get | bash
         rye sync
 
     - name: pre-commit
