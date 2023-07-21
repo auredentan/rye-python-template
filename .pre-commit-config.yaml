@@ -1,0 +1,55 @@
+---
+default_language_version:
+  python: python3.11
+
+default_stages: [commit]
+
+repos:
+  # Apply a selection of the pre-commit built-in validators
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+        stages: ["commit"]
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        stages: ["commit"]
+      - id: trailing-whitespace
+        stages: ["commit"]
+      - id: pretty-format-json
+        args: [--autofix, --no-ensure-ascii]
+      - id: file-contents-sorter
+        args: ["--ignore-case"]
+
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        language: system
+        entry: .venv/bin/black
+        types: ["python"]
+
+      - id: isort
+        name: isort
+        language: system
+        entry: .venv/bin/isort
+        types: ["python"]
+
+      - id: mypy
+        name: mypy
+        language: system
+        entry: .venv/bin/mypy
+        require_serial: true
+        files: src/
+        types: ["python"]
+
+      - id: ruff
+        name: ruff
+        language: system
+        entry: .venv/bin/ruff
+        types: ["python"]
