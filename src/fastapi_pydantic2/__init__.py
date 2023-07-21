@@ -1,10 +1,6 @@
-import json
-
-import csv
-
-def hello() -> int:
+def hello() -> str:
     return "Hello from fastapi-pydantic2!"
 
 
-class trucSe:
+class trucSes:
     pass
