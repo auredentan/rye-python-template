@@ -1,3 +1,5 @@
 # fastapi-pydantic2
 
-Describe your project here.
+## Pre-requisities
+
+* [Rye](https://rye-up.com/)

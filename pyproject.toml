@@ -23,6 +23,8 @@ dev-dependencies = [
     "ruff>=0.0.278",
     "isort>=5.12.0",
     "pre-commit>=3.3.3",
+    "pytest>=7.4.0",
+    "httpx>=0.24.1",
 ]
 
 [tool.rye.scripts]
@@ -36,6 +38,8 @@ lint = { chain = ["lint:black", "lint:ruff", "lint:mypy", "lint:isort" ] }
 format = { chain = ["format:isort", "format:black"] }
 "format:black" = "black src"
 "format:isort" = "isort src"
+"run:dev" = "uvicorn src.app.main:app --reload"
+"tests" = "pytest src/tests"
 
 [tool.hatch.metadata]
 allow-direct-references = true
