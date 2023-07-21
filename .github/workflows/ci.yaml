@@ -1,4 +1,4 @@
-name: pre-commit
+name: CI
 
 on:
   pull_request:
@@ -7,6 +7,29 @@ env:
     python-version: 3.11.3
 
 jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Activate the cache for pip
+      uses: actions/cache@v3
+      id: cache-venv
+      with:
+        path: .venv
+        key: pip-v3-python-${{ env.python-version }}-${{ hashFiles('requirements-dev.lock') }}
+        restore-keys: |
+            pip-v3-python-${{ env.python-version }}-${{ hashFiles('requirements-dev.lock') }}
+            pip-v3-python-${{ env.python-version }}-
+
+    - uses: eifinger/setup-rye@v1
+
+    - name: Install Python dependencies
+      run: rye sync
+
+    - name: Run tests
+      run: rye run tests
+
   pre-commit:
     runs-on: ubuntu-latest
     steps:

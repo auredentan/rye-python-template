@@ -24,6 +24,7 @@ httptools==0.6.0
 httpx==0.24.1
 identify==2.5.25
 idna==3.4
+iniconfig==2.0.0
 isort==5.12.0
 itsdangerous==2.1.2
 jinja2==3.1.2
@@ -35,11 +36,13 @@ orjson==3.9.2
 packaging==23.1
 pathspec==0.11.1
 platformdirs==3.9.1
+pluggy==1.2.0
 pre-commit==3.3.3
 pydantic==2.0.3
 pydantic-core==2.3.0
 pydantic-extra-types==2.0.0
 pydantic-settings==2.0.2
+pytest==7.4.0
 python-dotenv==1.0.0
 python-multipart==0.0.6
 pyyaml==6.0.1
