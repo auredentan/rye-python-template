@@ -7,6 +7,12 @@ authors = [
 ]
 dependencies = [
     "fastapi[all]>=0.100.0",
+    "inject>=5.0.0",
+    "sqlalchemy[asyncio]>=2.0.19",
+    "alembic>=1.11.1",
+    "psycopg2>=2.9.6",
+    "python-dotenv>=1.0.0",
+    "asyncpg>=0.28.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.11"
@@ -38,8 +44,10 @@ lint = { chain = ["lint:black", "lint:ruff", "lint:mypy", "lint:isort" ] }
 format = { chain = ["format:isort", "format:black"] }
 "format:black" = "black src"
 "format:isort" = "isort src"
-"run:dev" = "uvicorn src.app.main:app --reload"
+"dev" = "uvicorn src.app.main:app --reload"
 "tests" = "pytest src/tests"
+"sql:autogenerate" = "alembic revision --autogenerate"
+"sql:upgrade" = "alembic upgrade head"
 
 [tool.hatch.metadata]
 allow-direct-references = true
