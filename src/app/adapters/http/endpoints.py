@@ -14,9 +14,12 @@ async def index(email: str) -> User:
     return await create_user(user_email=email)
 
 
-@router.get(path="/users", response_model=list[User])
-async def users() -> list[User]:
-    return await get_users()
+@router.get(path="/users", response_model=dict)
+async def users(cursor: str | None = None) -> dict:
+    print("received", cursor)
+    (users, cursor, more) = await get_users(cursor)
+    print("retturning", cursor)
+    return {"users": users, "cursor": cursor, "more": more}
 
 
 @router.post("/events")

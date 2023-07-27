@@ -31,19 +31,19 @@ repos:
       - id: black
         name: black
         language: system
-        entry: .venv/bin/black
+        entry: venv/bin/black
         types: ["python"]
 
       - id: isort
         name: isort
         language: system
-        entry: .venv/bin/isort
+        entry: venv/bin/isort
         types: ["python"]
 
       - id: mypy
         name: mypy
         language: system
-        entry: .venv/bin/mypy
+        entry: venv/bin/mypy
         require_serial: true
         files: src/
         types: ["python"]
@@ -51,5 +51,5 @@ repos:
       - id: ruff
         name: ruff
         language: system
-        entry: .venv/bin/ruff
+        entry: venv/bin/ruff
         types: ["python"]

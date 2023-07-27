@@ -1,10 +1,11 @@
+from abc import ABC
 from typing import AsyncIterator
 
 from fastapi.concurrency import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 
-class BaseRepository:
+class BaseRepository(ABC):
     session_factory: async_sessionmaker[AsyncSession]
 
     @asynccontextmanager
