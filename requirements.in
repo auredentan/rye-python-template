@@ -1,0 +1,11 @@
+asyncpg
+sqlalchemy[asyncio]
+sqlakeyset
+fastapi
+uvicorn
+alembic
+python-dotenv
+
+mypy
+black
+ruff
