@@ -5,8 +5,8 @@ from alembic import context
 from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
-from src.app.adapters.db import User  # noqa: F401
-from src.app.adapters.db.sqlachemy import Base
+from src.app.adapters.db.sqlachemy import SqlalchemyBase
+from src.app.adapters.db.user.table import User  # noqa: F401
 
 load_dotenv()
 # this is the Alembic Config object, which provides
@@ -22,7 +22,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = Base.metadata
+target_metadata = SqlalchemyBase.metadata
 
 config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL") or "")
 

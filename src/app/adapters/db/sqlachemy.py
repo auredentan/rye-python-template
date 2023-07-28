@@ -1,12 +1,12 @@
 import asyncpg
-from sqlakeyset import custom_bookmark_type
+from sqlakeyset import ConfigurationError, custom_bookmark_type
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 from src.app.interfaces.base import SingletonMeta
 
 
-class Base(DeclarativeBase):
+class SqlalchemyBase(DeclarativeBase):
     pass
 
 
@@ -25,13 +25,19 @@ class Db(SingletonMeta):
         if self._engine:
             await self._engine.dispose()
 
-    def register_custom_bookmark(self):
-        def ser_uuid(uid: asyncpg.pgproto.pgproto.UUID) -> str:
+    def register_custom_bookmark(self) -> None:
+        def ser_uuid(uid: asyncpg.pgproto.pgproto.UUID) -> str:  # type: ignore
             return str(uid)
 
-        def deser_uuid(uid: str) -> asyncpg.pgproto.pgproto.UUID:
-            return asyncpg.pgproto.pgproto.UUID(uid)
+        def deser_uuid(uid: str) -> asyncpg.pgproto.pgproto.UUID:  # type: ignore
+            return asyncpg.pgproto.pgproto.UUID(uid)  # type: ignore
 
-        custom_bookmark_type(
-            asyncpg.pgproto.pgproto.UUID, "uuidasyncpg", deser_uuid, ser_uuid
-        )
+        try:
+            custom_bookmark_type(
+                type=asyncpg.pgproto.pgproto.UUID,  # type: ignore
+                code="uuidasyncpg",
+                deserializer=deser_uuid,
+                serializer=ser_uuid,
+            )
+        except ConfigurationError:
+            pass

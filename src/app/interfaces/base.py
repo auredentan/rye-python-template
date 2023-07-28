@@ -1,7 +1,7 @@
-from abc import ABC
 from threading import Lock
 
-class SingletonMeta(ABC):
+
+class SingletonMeta:
     """
     This is a thread-safe implementation of Singleton.
     """
@@ -14,6 +14,7 @@ class SingletonMeta(ABC):
     first access to the Singleton.
     """
 
+    @classmethod
     def __call__(cls, *args, **kwargs):
         """
         Possible changes to the value of the `__init__` argument do not affect

@@ -32,7 +32,6 @@ class UserRepository(BaseRepository):
     async def get_users(self, cursor: str | None) -> tuple[list[User], str, bool]:
         query = select(sql.User).order_by(sql.User.id)
         async with self.session_factory() as s:
-            print("applying cursor", cursor)
             page = await select_page(s, query, per_page=2, page=cursor)
             return (
                 [self.to_dto(row[0]) for (_, row) in page.paging.items()],
