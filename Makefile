@@ -29,14 +29,17 @@ dev:
 	uvicorn src.app.main:app --reload
 
 lint:
-	black --check src
+	black --check -q src
 	ruff check src
 	mypy src
 	isort src -c
 
 format:
-	isort src
 	black src
+	isort src
+
+tests:
+	pytest
 
 sql.autogenerate:
 	alembic revision --autogenerate

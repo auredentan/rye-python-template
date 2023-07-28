@@ -2,9 +2,10 @@ name: CI
 
 on:
   pull_request:
+  merge_group:
 
 env:
-    python-version: 3.11.3
+    python-version: 3.11.4
 
 jobs:
   tests:
@@ -12,34 +13,48 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install Python ${{ env.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.python-version }}
+
     - name: Activate the cache for pip
       uses: actions/cache@v3
       id: cache-venv
       with:
-        path: .venv
+        path: venv
         key: pip-v3-python-${{ env.python-version }}-${{ hashFiles('requirements-dev.lock') }}
         restore-keys: |
             pip-v3-python-${{ env.python-version }}-${{ hashFiles('requirements-dev.lock') }}
             pip-v3-python-${{ env.python-version }}-
 
-    - uses: eifinger/setup-rye@v1
+    - name: Setup venv
+      if: ${{ steps.cache-venv.outputs.cache-hit != 'true' }}
+      run: |
+        python3 -m venv venv
+        venv/bin/pip install pip-tools
 
     - name: Install Python dependencies
-      run: rye sync
+      run: make sync
 
     - name: Run tests
-      run: rye run tests
+      run: make tests
 
   pre-commit:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install Python ${{ env.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.python-version }}
+
     - name: Activate the cache for pip
       uses: actions/cache@v3
       id: cache-venv
       with:
-        path: .venv
+        path: venv
         key: pip-v3-python-${{ env.python-version }}-${{ hashFiles('requirements-dev.lock') }}
         restore-keys: |
             pip-v3-python-${{ env.python-version }}-${{ hashFiles('requirements-dev.lock') }}
@@ -53,12 +68,16 @@ jobs:
         restore-keys: |
             pre-commit-v7-
 
-    - uses: eifinger/setup-rye@v1
+    - name: Setup venv
+      if: ${{ steps.cache-venv.outputs.cache-hit != 'true' }}
+      run: |
+        python3 -m venv venv
+        venv/bin/pip install pip-tools
 
     - name: Install Python dependencies
-      run: rye sync
+      run: make sync
 
     - name: pre-commit
-      run: ./.venv/bin/pre-commit run --all-files
+      run: ./venv/bin/pre-commit run --all-files
       env:
         PRE_COMMIT_HOME: /tmp/pre-commit-cache

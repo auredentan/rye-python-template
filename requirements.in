@@ -9,3 +9,7 @@ python-dotenv
 mypy
 black
 ruff
+isort
+pre-commit
+pytest
+httpx
