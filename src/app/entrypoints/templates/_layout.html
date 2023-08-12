@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Personal Library - FastAPI & HTMX Demo App{% endblock %}</title>
+
+
+    {% block additional_css %}{% endblock %}
+</head>
+<body>
+
+<div class="main_content">
+    {% block main_content %}{% endblock %}
+</div>
+
+<footer>
+    <div class="copyright">
+        Demo of FastAPI and <a href="https://htmx.org" target="_blank">HTMX</a>
+    </div>
+</footer>
+
+
+<script src="/static/js/htmx.min.js?v=1.5.0"></script>

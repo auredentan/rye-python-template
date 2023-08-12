@@ -5,6 +5,7 @@ fastapi
 uvicorn
 alembic
 python-dotenv
+Jinja2
 
 mypy
 black
